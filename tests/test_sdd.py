@@ -89,7 +89,8 @@ class SDDTests(unittest.TestCase):
         )
         self.assertEqual(result.stderr, "")
         self.assertEqual(result.stdout, (
-            "S[0] total=0\n  +[1] lexval='+'\n  L[2] step=1, total=0\n"
+            "S[0] total=0\n  +[1] lexval='+'\n  L[2] step=1, total=0\n    ε\n"
             "Evaluation order: 2.step -> 1.lexval -> 2.total -> 0.total\n"
             "S.total = 0\nno\n"
         ))
+

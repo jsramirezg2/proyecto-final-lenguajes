@@ -6,7 +6,7 @@ This program computes FIRST and FOLLOW sets, classifies a context-free grammar a
 
 ## Requirements and installation
 
-Run these commands from the project directory with Python 3.10 or later. No packages, build step, or virtual environment are required. The implementation and test suite were verified with Python 3.12.10 on macOS 27.0.1 (build 26A434). The report was generated with ReportLab 4.4.9, which is only a document-authoring tool.
+Run these commands from the project directory with Python 3.10 or later. No packages, build step, or virtual environment are required. The implementation and test suite were verified with Python 3.12.10 on macOS 27.0.1 (build 26A434) and with Python 3.14.10 on Arch Linux (kernel 7.2.14). The report was generated with ReportLab 4.4.9, which is only a document-authoring tool.
 
 ## Run the parsers
 

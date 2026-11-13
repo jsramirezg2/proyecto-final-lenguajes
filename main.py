@@ -18,7 +18,7 @@ def format_set(symbols: set[str]) -> str:
 
 def read_strings(stream):
     for line in stream:
-        text = line.removesuffix("\n")
+        text = line.rstrip("\r\n")  # also accepts Windows line endings
         if not text:
             break
         yield text
@@ -46,6 +46,8 @@ def run_sdd(strings, rules=RULES):
         for number, (node, depth) in enumerate(walk_tree(root)):
             attributes = ", ".join(f"{name}={value!r}" for name, value in sorted(node.attributes.items()))
             print("  " * depth + f"{node.symbol}[{number}] {attributes}")
+            if node.production is not None and not node.production.body:
+                print("  " * (depth + 1) + "ε")
         print("Evaluation order:", " -> ".join(f"{i}.{name}" for i, name in order))
         print(f"S.{MAIN_ATTRIBUTE} = {root.attributes[MAIN_ATTRIBUTE]}")
 
@@ -55,6 +57,7 @@ def main() -> None:
     parser.add_argument("--sets", action="store_true", help="print FIRST and FOLLOW")
     parser.add_argument("--sdd", action="store_true", help="evaluate the example SDD")
     args = parser.parse_args()
+    sys.stdout.reconfigure(line_buffering=True)  # flush each answer, even through a pipe
     if args.sdd:
         if args.sets:
             parser.error("--sdd and --sets are separate modes")
@@ -81,17 +84,17 @@ def main() -> None:
     if ll1.is_ll1 and slr.is_slr1:
         parsers = {"T": top_down, "B": bottom_up}
         while True:
-            print("Select a parser (T: for LL(1), B: for SLR(1), Q: quit):", flush=True)
+            print("Select a parser (T: for LL(1), B: for SLR(1), Q: quit):")
             choice = sys.stdin.readline()
             if not choice or choice.strip() == "Q":
                 return
             if choice.strip() in parsers:
                 run_batch(parsers[choice.strip()])
     elif ll1.is_ll1:
-        print("Grammar is LL(1).", flush=True)
+        print("Grammar is LL(1).")
         run_batch(top_down)
     elif slr.is_slr1:
-        print("Grammar is SLR(1).", flush=True)
+        print("Grammar is SLR(1).")
         run_batch(bottom_up)
     else:
         print("Grammar is neither LL(1) nor SLR(1).")

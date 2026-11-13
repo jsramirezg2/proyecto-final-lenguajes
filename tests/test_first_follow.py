@@ -129,6 +129,10 @@ class CommandLineTests(unittest.TestCase):
             PROMPT + "yes\n" + PROMPT + PROMPT + "yes\nno\n" + PROMPT
         ))
 
+    def test_windows_line_endings(self):
+        source = "1\r\nS -> a\r\nT\r\na\r\nb\r\n\r\nQ\r\n"
+        self.assertEqual(self.run_main(source), PROMPT + "yes\nno\n" + PROMPT)
+
 
 if __name__ == "__main__":
     unittest.main()
